@@ -64,6 +64,7 @@ func Provider() *schema.Provider {
 		ResourcesMap: map[string]*schema.Resource{
 			"vultr_bare_metal_server":        resourceVultrBareMetalServer(),
 			"vultr_block_storage":            resourceVultrBlockStorage(),
+			"vultr_cdn_pull_zone":            resourceVultrCDNPullZone(),
 			"vultr_container_registry":       resourceVultrContainerRegistry(),
 			"vultr_database":                 resourceVultrDatabase(),
 			"vultr_database_connection_pool": resourceVultrDatabaseConnectionPool(),
