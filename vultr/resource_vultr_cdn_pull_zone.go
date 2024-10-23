@@ -108,10 +108,10 @@ func resourceVultrCDNPullZoneCreate(ctx context.Context, d *schema.ResourceData,
 		Label:        d.Get("label").(string),
 		OriginScheme: d.Get("origin_scheme").(string),
 		OriginDomain: d.Get("origin_domain").(string),
-		CORS:         d.Get("cors").(bool),
-		GZIP:         d.Get("gzip").(bool),
-		BlockAI:      d.Get("block_ai").(bool),
-		BlockBadBots: d.Get("block_bad_bots").(bool),
+		CORS:         govultr.BoolToBoolPtr(d.Get("cors").(bool)),
+		GZIP:         govultr.BoolToBoolPtr(d.Get("gzip").(bool)),
+		BlockAI:      govultr.BoolToBoolPtr(d.Get("block_ai").(bool)),
+		BlockBadBots: govultr.BoolToBoolPtr(d.Get("block_bad_bots").(bool)),
 	}
 
 	pz, _, err := client.CDN.CreatePullZone(ctx, req)
@@ -233,22 +233,22 @@ func resourceVultrCDNPullZoneUpdate(ctx context.Context, d *schema.ResourceData,
 
 	if d.HasChange("cors") {
 		log.Print("[INFO] Updating pull zone `cors`")
-		req.CORS = d.Get("cors").(bool)
+		req.CORS = govultr.BoolToBoolPtr(d.Get("cors").(bool))
 	}
 
 	if d.HasChange("gzip") {
 		log.Print("[INFO] Updating pull zone `gzip`")
-		req.GZIP = d.Get("gzip").(bool)
+		req.GZIP = govultr.BoolToBoolPtr(d.Get("gzip").(bool))
 	}
 
 	if d.HasChange("block_ai") {
 		log.Print("[INFO] Updating pull zone `block_ai`")
-		req.BlockAI = d.Get("block_ai").(bool)
+		req.BlockAI = govultr.BoolToBoolPtr(d.Get("block_ai").(bool))
 	}
 
 	if d.HasChange("block_bad_bots") {
 		log.Print("[INFO] Updating pull zone `block_bad_bots`")
-		req.BlockBadBots = d.Get("block_bad_bots").(bool)
+		req.BlockBadBots = govultr.BoolToBoolPtr(d.Get("block_bad_bots").(bool))
 	}
 
 	pz, _, err := client.CDN.UpdatePullZone(ctx, d.Id(), req)
