@@ -1,6 +1,6 @@
 # Changelog
 ## [v2.30.1](https://github.com/vultr/terraform-provider-vultr/compare/v2.30.0...v2.30.1) (2026-03-04)
-### Buck Fixes
+### Bug Fixes
 * resource/kubernetes_node_pool: Remove len check on node pool state migration [PR 702](https://github.com/vultr/terraform-provider-vultr/pull/702)
 
 ## [v2.30.0](https://github.com/vultr/terraform-provider-vultr/compare/v2.29.1...v2.30.0) (2026-02-26)
