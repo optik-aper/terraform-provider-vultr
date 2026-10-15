@@ -73,6 +73,7 @@ func Provider() *schema.Provider {
 			"vultr_user":                        dataSourceVultrUser(),
 			"vultr_virtual_file_system_storage": dataSourceVultrVirtualFileSystemStorage(),
 			"vultr_vpc":                         dataSourceVultrVPC(),
+			"vultr_vpn":                         dataSourceVultrVPN(),
 		},
 
 		ResourcesMap: map[string]*schema.Resource{
@@ -127,6 +128,7 @@ func Provider() *schema.Provider {
 			"vultr_user":                                 resourceVultrUsers(),
 			"vultr_virtual_file_system_storage":          resourceVultrVirtualFileSystemStorage(),
 			"vultr_vpc":                                  resourceVultrVPC(),
+			"vultr_vpn":                                  resourceVultrVPN(),
 		},
 
 		ConfigureContextFunc: providerConfigure,
