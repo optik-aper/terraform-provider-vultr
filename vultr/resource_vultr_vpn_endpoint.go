@@ -60,6 +60,10 @@ func resourceVultrVPNEndpoint() *schema.Resource {
 				ValidateFunc: validation.StringIsBase64,
 			},
 			// computed -------------------
+			"config_file": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"remote_identifier": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -189,6 +193,15 @@ func resourceVultrVPNEndpointRead(ctx context.Context, d *schema.ResourceData, m
 
 	if err := d.Set("date_updated", endpoint.DateCreated); err != nil {
 		return diag.Errorf("unable to set resource vpn endpoint `date_updated` read value: %v", err)
+	}
+
+	configFile, _, err := client.VPN.GetEndpointConfigFile(ctx, d.Get("vpn_id").(string), d.Id())
+	if err != nil {
+		return diag.Errorf("error getting config file for endpoint (%s) on vpn (%s) :", d.Id(), d.Get("vpn_id").(string))
+	}
+
+	if err := d.Set("config_file", configFile.Config); err != nil {
+		return diag.Errorf("unable to set resource vpn endpoint `config_file` read value: %v", err)
 	}
 
 	return nil
