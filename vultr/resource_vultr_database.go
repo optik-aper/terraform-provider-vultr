@@ -72,10 +72,12 @@ func resourceVultrDatabase() *schema.Resource {
 			"backup_hour": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"backup_minute": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"cluster_time_zone": {
 				Type:     schema.TypeString,
@@ -102,6 +104,7 @@ func resourceVultrDatabase() *schema.Resource {
 			"mysql_sql_modes": {
 				Type:     schema.TypeSet,
 				Optional: true,
+				Computed: true,
 				Elem:     &schema.Schema{Type: schema.TypeString},
 			},
 			"mysql_slow_query_log": {
@@ -112,6 +115,7 @@ func resourceVultrDatabase() *schema.Resource {
 			"mysql_require_primary_key": {
 				Type:     schema.TypeBool,
 				Optional: true,
+				Computed: true,
 			},
 			"mysql_long_query_time": {
 				Type:     schema.TypeInt,
@@ -324,17 +328,6 @@ func resourceVultrDatabaseCreate(ctx context.Context, d *schema.ResourceData, me
 	if clusterTimeZone, clusterTimeZoneOK := d.GetOk("cluster_time_zone"); clusterTimeZoneOK {
 		log.Printf("[INFO] Updating database default time zone")
 		req2.ClusterTimeZone = clusterTimeZone.(string)
-	}
-
-	// Empty/default backup schedule settings are only honored on update and not create
-	if req.DatabaseEngine != "kafka" && req.BackupHour == nil && req.BackupMinute == nil {
-		log.Printf("[INFO] Updating database backup schedule")
-		req2.BackupHour = govultr.StringToStringPtr("")
-		req2.BackupMinute = govultr.StringToStringPtr("")
-	}
-
-	// Perform an update if needed
-	if req2.ClusterTimeZone != "" || req2.BackupHour != nil || req2.BackupMinute != nil {
 		if _, _, err := client.Database.Update(ctx, d.Id(), req2); err != nil {
 			return diag.Errorf("error updating post-creation values for database: %v", err)
 		}
