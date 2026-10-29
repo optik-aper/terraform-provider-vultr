@@ -469,6 +469,7 @@ func flattenReplicas(db *govultr.Database) []map[string]interface{} {
 	for v := range db.ReadReplicas {
 		r := map[string]interface{}{
 			"id":                        db.ReadReplicas[v].ID,
+			"parent_id":                 db.ReadReplicas[v].ParentID,
 			"date_created":              db.ReadReplicas[v].DateCreated,
 			"plan":                      db.ReadReplicas[v].Plan,
 			"plan_disk":                 db.ReadReplicas[v].PlanDisk,

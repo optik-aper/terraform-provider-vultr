@@ -95,6 +95,10 @@ func resourceVultrDatabaseReplicaRead(ctx context.Context, d *schema.ResourceDat
 		return diag.Errorf("error getting database read replica (%s): %v", d.Id(), err)
 	}
 
+	if err := d.Set("parent_id", database.ParentID); err != nil {
+		return diag.Errorf("unable to set resource database read replica `parent_id` read value: %v", err)
+	}
+
 	if err := d.Set("date_created", database.DateCreated); err != nil {
 		return diag.Errorf("unable to set resource database read replica `date_created` read value: %v", err)
 	}

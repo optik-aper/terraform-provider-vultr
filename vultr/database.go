@@ -32,6 +32,10 @@ func readReplicaSchema(isReadReplica bool) map[string]*schema.Schema {
 			Type:     schema.TypeString,
 			Computed: true,
 		},
+		"parent_id": {
+			Type:     schema.TypeString,
+			Computed: true,
+		},
 		"date_created": {
 			Type:     schema.TypeString,
 			Computed: true,
