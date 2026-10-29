@@ -57,6 +57,10 @@ func readReplicaSchema(isReadReplica bool) map[string]*schema.Schema {
 			Type:     schema.TypeInt,
 			Computed: true,
 		},
+		"plan_price": {
+			Type:     schema.TypeFloat,
+			Computed: true,
+		},
 		"status": {
 			Type:     schema.TypeString,
 			Computed: true,

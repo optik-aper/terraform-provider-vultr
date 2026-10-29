@@ -160,6 +160,10 @@ func resourceVultrDatabase() *schema.Resource {
 				Computed: true,
 				Optional: true,
 			},
+			"plan_price": {
+				Type:     schema.TypeFloat,
+				Computed: true,
+			},
 			"status": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -392,6 +396,10 @@ func resourceVultrDatabaseRead(ctx context.Context, d *schema.ResourceData, meta
 		if err := d.Set("plan_brokers", database.PlanBrokers); err != nil {
 			return diag.Errorf("unable to set resource database `plan_brokers` read value: %v", err)
 		}
+	}
+
+	if err := d.Set("plan_price", database.PlanPrice); err != nil {
+		return diag.Errorf("unable to set resource database `plan_price` read value: %v", err)
 	}
 
 	if err := d.Set("region", database.Region); err != nil {

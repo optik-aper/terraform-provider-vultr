@@ -42,6 +42,10 @@ func dataSourceVultrDatabase() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"plan_price": {
+				Type:     schema.TypeFloat,
+				Computed: true,
+			},
 			"region": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -272,6 +276,10 @@ func dataSourceVultrDatabaseRead(ctx context.Context, d *schema.ResourceData, me
 		}
 	}
 
+	if err := d.Set("plan_price", databaseList[0].PlanPrice); err != nil {
+		return diag.Errorf("unable to set resource database `plan_price` read value: %v", err)
+	}
+
 	if err := d.Set("region", databaseList[0].Region); err != nil {
 		return diag.Errorf("unable to set resource database `region` read value: %v", err)
 	}
@@ -467,6 +475,7 @@ func flattenReplicas(db *govultr.Database) []map[string]interface{} {
 			"plan_ram":                  db.ReadReplicas[v].PlanRAM,
 			"plan_vcpus":                db.ReadReplicas[v].PlanVCPUs,
 			"plan_replicas":             db.ReadReplicas[v].PlanReplicas,
+			"plan_price":                db.ReadReplicas[v].PlanPrice,
 			"region":                    db.ReadReplicas[v].Region,
 			"database_engine":           db.ReadReplicas[v].DatabaseEngine,
 			"database_engine_version":   db.ReadReplicas[v].DatabaseEngineVersion,
