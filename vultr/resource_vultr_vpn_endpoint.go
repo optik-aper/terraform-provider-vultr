@@ -3,6 +3,7 @@ package vultr
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/hashicorp/terraform-plugin-log/tflog"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
@@ -20,9 +21,28 @@ func resourceVultrVPNEndpoint() *schema.Resource {
 		UpdateContext: resourceVultrVPNEndpointUpdate,
 		DeleteContext: resourceVultrVPNEndpointDelete,
 		Importer: &schema.ResourceImporter{
-			StateContext: schema.ImportStatePassthroughContext,
-		},
+			StateContext: func(ctx context.Context, d *schema.ResourceData, meta interface{}) ([]*schema.ResourceData, error) {
+				client := meta.(*Client).govultrClient()
 
+				strngs := strings.SplitN(d.Id(), "_", 2)
+				if len(strngs) != 2 {
+					return nil, fmt.Errorf(`unable to import vpn endpoint: 
+the composite import id must be formatted as <VPN ID>_<ENDPOINT ID>, received %q`, d.Id())
+				}
+
+				d.SetId(strngs[1])
+
+				if _, _, err := client.VPN.GetEndpoint(ctx, strngs[0], strngs[1]); err != nil {
+					return nil, fmt.Errorf("unable to import vpn endpoint: %v", err)
+				}
+
+				if err := d.Set("vpn_id", strngs[0]); err != nil {
+					return nil, fmt.Errorf("unable to set vpn_id on vpn endpoint import : %v", err)
+				}
+
+				return []*schema.ResourceData{d}, nil
+			},
+		},
 		Schema: map[string]*schema.Schema{
 			"vpn_id": {
 				Type:     schema.TypeString,
