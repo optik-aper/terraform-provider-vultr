@@ -83,8 +83,9 @@ the composite import id must be formatted as <VPN ID>_<ENDPOINT ID>, received %q
 			},
 			// computed -------------------
 			"config_file": {
-				Type:     schema.TypeString,
-				Computed: true,
+				Type:      schema.TypeString,
+				Computed:  true,
+				Sensitive: true,
 			},
 			"remote_identifier": {
 				Type:     schema.TypeString,
