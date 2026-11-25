@@ -87,9 +87,10 @@ The following attributes are exported:
 * `date_updated` - The date of last modification for the endpoint.
 
 ## Import
-
-VPN endpoints can be imported using the endpoint's `ID`, e.g.
+VPN endpoints rely on a VPN ID as well as their own ID. To import we look up the
+endpoint via a composite key formatted like `<VPN ID>_<ENDPOINT ID>` (the two
+IDs separated by an underscore). The import will look like:
 
 ```
-terraform import vultr_vpn_endpoint.my_vpn e97bdee9-2781-4f31-be03-60fc75f399ae
+terraform import vultr_vpn_endpoint.my_endpoint e97bdee9-2781-4f31-be03-60fc75f399ae_f3a3bfcc-1ce4-400c-b61c-3ae1dfd0a570
 ```
