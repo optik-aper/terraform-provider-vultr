@@ -56,6 +56,7 @@ the composite import id must be formatted as <VPN ID>_<ENDPOINT ID>, received %q
 			"ip_address": {
 				Type:     schema.TypeString,
 				Optional: true,
+				Computed: true,
 			},
 			"remote_subnets": {
 				Type:     schema.TypeSet,
@@ -78,6 +79,7 @@ the composite import id must be formatted as <VPN ID>_<ENDPOINT ID>, received %q
 				Optional:     true,
 				Sensitive:    true,
 				ValidateFunc: validation.StringIsBase64,
+				Computed:     true,
 			},
 			// computed -------------------
 			"config_file": {
